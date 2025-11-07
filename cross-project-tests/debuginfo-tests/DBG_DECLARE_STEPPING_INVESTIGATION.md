@@ -94,12 +94,19 @@ The line number table maps machine code addresses to source file locations (file
 - **DWARF Sections**: `.debug_line` (line tables), `.debug_info` (variable info)
 - **IR Metadata**: `!dbg` (source locations), `DILocalVariable` (variable descriptors)
 
-## Test Case
+## Test Cases
 
-A test case has been added at:
-`cross-project-tests/debuginfo-tests/llgdb-tests/dbg-declare-stepping.c`
+Two test cases have been added to verify the findings:
 
-This test verifies that DWARF line tables are identical with and without `dbg_declare` records.
+1. **LLVM IR Test**: `llvm/test/DebugInfo/X86/dbg-declare-line-table.ll`
+   - Directly tests that DWARF line tables are identical with/without dbg.declare
+   - Compiles the same IR twice (with and without dbg.declare) and compares line tables
+   - This is a fast, deterministic unit test
+
+2. **Integration Test**: `cross-project-tests/debuginfo-tests/llgdb-tests/dbg-declare-stepping.c`
+   - Tests actual GDB behavior with a real debugger
+   - Verifies that line stepping works and variables can be inspected
+   - Demonstrates the practical debugging experience
 
 ## References
 
